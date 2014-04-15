@@ -1,0 +1,105 @@
+<div class="row">
+	<div class="col-md-2 sidebarCol">
+		<div class="sidebar">
+			<div id="mainMenu">
+				<ul class="pull-right">
+					<li>
+						<a href="#" class="logout">Выйти</a>
+					</li>
+				</ul>
+			</div>
+			<div id="userBlock"></div>
+			<div id="menu">
+				<ul class="nav nav-list">
+					<li><a href="#audio" id="audio">Аудиозаписи</a></li>
+					<li><a href="#newsfeed" id="newsfeed">Новостная лента</a></li>
+					<li><a href="#">Избранное</a></li>
+				</ul>
+			</div>
+			<div id="player">
+				<div class="info">
+					<div class="track-info">
+						<div class="artist"></div>
+						<div class="title"></div>
+						<div class="time-control">	
+							<div class="buffer"></div>							
+							<div class="range"></div>
+						</div>
+						<div class="duration"></div>
+					</div>
+					<div class="album-image"></div>
+				</div>
+				<div class="control">
+					<ul>
+						<li><a href="#" id="playerPrev"><i class="fa fa-backward"></i></a></li>
+						<li><a href="#" id="playerPlayPause"><i class="fa fa-play"></i></a></li>
+						<li><a href="#" id="playerNext"><i class="fa fa-forward"></i></a></li>
+					</ul>
+
+					<ul class="addon">
+						<li><a href="#" id="playerRandom" rel="tooltip" title="Случайный порядок"><i class="fa fa-random"></i></a></li>
+						<li><a href="#" id="playerRepeat" rel="tooltip" title="Повторять плейлист"><i class="fa fa-repeat"></i></a></li>
+						<li><a href="#" id="playerMute" rel="tooltip" title="Выкл/вкл звук"><i class="fa fa-volume-up"></i></a></li>
+					</ul>
+				</div>
+				
+				<div class="volume">
+					<div class="volume-control">								
+						<div class="range"></div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div id="content">
+			<div id="audioTab" class="tab">
+				<div class="header">
+					<div class="input-group">
+				      <input type="text" class="form-control" placeholder="Поиск аудиозаписей" id="searchQuery"
+				      		 rel="tooltip"
+				      		 data-placement="bottom"
+				      		 data-trigger="focus"
+				      		 title="Введите название композиции или исполнителя">
+
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" id="searchIt">Найти</button>
+				      </span>
+				    </div>
+				    <ul class="nav nav-pills" id="audioMenu">
+				    	<li><a href="#myAudio" id="myAudio">Мои аудиозаписи</a></li>
+				    	<li><a href="#recommendationsAudio" id="recommendationsAudio">Рекомендации</a></li>
+				    </ul>
+
+				    <div class="checkbox by-artist">
+				    	<label>
+					    	<input type="checkbox" id="byArtist" value="1"> По исполнителю
+					    </label>
+				    </div>
+				</div>
+				<div class="contentPlace"></div>
+			</div>
+
+			<div id="newsfeedTab" class="tab">
+				<div class="contentPlace"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4"></div>
+</div>
+
+<div class="modal fade" id="loginModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Авторизация на сайте</h4>
+      </div>
+      <div class="modal-body">
+        <p>Чтобы воспользоваться сайтом, необходимо войти через социальную сеть ВКонтакте</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary login">Войти</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

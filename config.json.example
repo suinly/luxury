@@ -1,0 +1,20 @@
+{
+	"app": {
+		"port": 3000
+	},
+	"session": {
+        "secret": "luxury:secret",
+        "key": "sid",
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null
+        }
+    },
+	"vk": {
+		"app_id": 0000000,
+		"app_secret": "SjIOSdh79hasidoU",
+		"redirect_uri": "http://domain.com:3000/auth",
+		"scope": "wall,friends,audio"
+	}
+}

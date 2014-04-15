@@ -1,0 +1,293 @@
+.container {
+	min-width: 100%;
+}
+
+.sidebarCol {
+	width: 317px;
+}
+.sidebar {
+	position: fixed;
+	width: inherit;
+	height: 100%;
+	margin-left: -15px;
+	background: #333333;
+	color: #fff;
+	padding: 10px 15px;
+}
+
+.sidebar #mainMenu {
+	height: 20px;
+}
+.sidebar #mainMenu ul {
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar #mainMenu ul li a {
+	color: #fff;
+	font-size: 0.7em;
+}
+.sidebar #mainMenu ul li a:hover {
+	opacity: 0.8;
+	text-decoration: none;
+}
+
+.sidebar #mainMenu ul li .logout,
+.sidebar #mainMenu ul li .login {
+	display: none;
+}
+
+.sidebar #menu {
+	font-size: 13px;
+	font-weight: 300;
+}
+.sidebar #menu ul li {
+	margin-bottom: 5px;
+}
+.sidebar #menu ul li a {
+	color: #ffffff;
+}
+.sidebar #menu ul li.active a,
+.sidebar #menu ul li a:hover,
+.sidebar #menu ul li a:focus {
+	color: #ffffff;
+	background-color: #272727;
+}
+
+.sidebar #player {
+	position: fixed;
+	width: inherit;
+	bottom: 0;
+	padding-bottom: 20px;
+	text-align: center;
+}
+.sidebar #player .info {
+	display: block;
+	left: 0;
+}
+.sidebar #player .info .album-image {
+	width: 100px;
+	height: 100px;
+	background: #ddd;
+}
+.sidebar #player .info .track-info {
+	margin-left: 110px;
+	position: absolute;
+	text-align: left;
+}
+.sidebar #player .info .track-info .title {
+	font-weight: 600;
+}
+.sidebar #player .info .track-info .duration {
+	font-size: 0.8em;
+	color: #ddd;
+	margin-top: 10px;
+}
+.sidebar #player .control {
+}
+.sidebar #player .control ul {
+	padding: 0;
+	list-style: none;
+}
+.sidebar #player .control ul.addon {
+	margin-left: 110px;
+}
+.sidebar #player .control ul.addon li.volume {
+	width: 57px;
+}
+.sidebar #player .control ul.addon li a{
+	background: transparent;
+}
+.sidebar #player .control ul li {
+	float: left;
+	width: 33px;
+}
+.sidebar #player .control ul li a {
+	padding: 10px;
+	background: #272727;
+	color: #fff;
+}
+.sidebar #player .control ul li a:hover {
+	color: #ddd;
+}
+.volume {
+	position: absolute;
+	margin-left: 210px;
+	margin-top: 9px;
+	width: 75px;
+}
+.volume-control {
+	width: 75px;
+	height: 3px;
+	background: #afafaf;
+	cursor: pointer;
+	z-index: 100;
+}
+.volume-control .range {
+	height: 3px;
+	width: 40%;
+	background: #fff;
+	z-index: 101;
+}
+
+.sidebar #player .track-info .time-control {
+	margin-top: 9px;
+	width: 180px;
+	height: 6px;
+	background: #afafaf;
+	cursor: pointer;
+	z-index: 100;
+	display: none;
+}
+.sidebar #player .track-info .time-control .range,
+.sidebar #player .track-info .time-control .buffer {
+	height: 6px;
+	width: 40%;
+	background: #fff;
+	z-index: 102;
+	margin-top: -6px;
+}
+.sidebar #player .track-info .time-control .buffer {
+	background: #979797;
+	z-index: 101;
+}
+
+
+
+.sidebar #userBlock {
+	width: 100%;
+	min-height: 80px;
+	padding: 10px 0px;
+}
+.sidebar #userBlock .user-photo {
+	width: 50px;
+	height: 50px;
+	/* border-radius: 50%; */
+	background-size: cover !important;
+    background-position: center center !important;
+
+    margin-right: 10px;
+    float: left;
+}
+.sidebar #userBlock .user-name {
+	margin:0;
+}
+
+#content .tab {
+	display: none;
+}
+#content .tab .header {
+	margin-top: 10px;
+	padding: 10px;
+	background: #F8F8F8;
+}
+
+.tracks .track {
+	margin-top: 10px;
+	border: none;
+	padding: 5px;
+	cursor: pointer;
+}
+.tracks .track > a {
+	color: #000;
+	font-weight: 400;
+}
+.tracks .track.active > a {
+	color: #fff;
+	font-weight: 600;
+}
+.tracks .track:hover {
+	background: #F8F8F8;
+}
+.tracks .track.active {
+	background-color: #4E4E4E;
+	color: #fff;
+	font-weight: 400;
+}
+.tracks .track .play {
+	padding: 5px 0px;
+	margin-right: 10px;
+	display: inline-block;
+	width: 27px;
+	text-align: center;
+	background-color: #4E4E4E;
+	color: #fff;
+}
+.tracks .track .trackMenu {
+	position: absolute;
+	right: 0;
+	margin-top: -24px;
+	margin-right: 10px;
+	visibility: hidden;
+}
+.tracks .track .trackMenu ul {
+	list-style: none;
+	padding: 0;
+}
+.tracks .track .trackMenu ul li {
+	float: left;
+}
+.tracks .track .trackMenu ul li a {
+	padding: 5px 5px;
+	color: #afafaf;
+	font-size: 15px;
+}
+.tracks .track .trackMenu ul li:hover a {
+	color: #000;
+}
+.tracks .track.active .trackMenu ul li:hover a {
+	color: #FFF;
+}
+.tracks .track:hover .trackMenu {
+	visibility: visible;
+}
+
+.newsitem {
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-bottom: #F8F8F8;
+}
+.newsitem:hover {
+	background: #F8F8F8;
+}
+.newsitem .source_photo {
+	width: 50px;
+	height: 50px;
+	float: left;
+}
+.newsitem .content {
+	margin-left: 60px;
+}
+.newsitem .content .source_info {
+	font-size: 0.9em;
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+.newsitem .content .likes {
+	margin-top: 10px;
+	text-align: right;
+}
+
+.photos img:hover {
+	opacity: 0.97;
+}
+
+#audioMenu {
+	margin-top: 10px;
+}
+#audioMenu li.active a {
+	background-color: #4E4E4E;
+	color: #fff;	
+}
+#audioMenu li a {
+	padding: 5px 10px;
+	font-size: 0.89em;
+	color: #000;
+}
+
+.by-artist {
+	float: right;
+	margin-top: -25px;
+	line-height: 1.8;
+}

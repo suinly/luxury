@@ -1,0 +1,11 @@
+{
+	"name": "luxury",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "3.x.x",
+		"express3-handlebars": "latest",
+		"handlebars": "latest",
+		"nconf": "latest"
+	}
+}
