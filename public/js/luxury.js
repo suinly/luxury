@@ -123,11 +123,13 @@ $(function() {
 
         $('.time-control').fadeIn();
 
+        /**
+         * Получение обложки альбома из LastFM
+         */
         $.get('http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=' + window.lfm_api_key 
               + '&artist=' + luxury.currTrack.data('artist') 
               + '&track=' + luxury.currTrack.data('title') 
               + '&format=json', function(data) {
-                console.log(data);
 
             if ('track' in data) {
                 if ('album' in data.track) {
@@ -333,10 +335,12 @@ $(function() {
         if (self.find('.trackMenu').html() == '') {
             if (self.data('owner') == window.vk_user_id) {
                 var menu = '<ul> \
+                                <li><a href="#" rel="tooltip" title="Информация о исполнителе" class="artistInfo"><span class="fa fa-info"></span></a></li> \
                                 <li><a href="#" rel="tooltip" title="Удалить" class="deleteAudio"><span class="fa fa-times"></span></a></li> \
                             </ul>';
             } else {
                 var menu = '<ul> \
+                                <li><a href="#" rel="tooltip" title="Информация о исполнителе" class="artistInfo"><span class="fa fa-info"></span></a></li> \
                                 <li><a href="#" rel="tooltip" title="Добавить" class="addAudio"><span class="fa fa-plus"></span></a></li> \
                             </ul>';
             }

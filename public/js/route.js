@@ -55,7 +55,7 @@ $(function() {
     });
 
 	$('#myAudio').click(function() {
-		VK.api('audio.get', {count: 100}, function(data) {
+		VK.api('audio.get', {}, function(data) {
             $.ajax({
                 url: '/ui/audio',
                 type: 'POST',
@@ -158,7 +158,7 @@ $(function() {
 		VK.api('audio.add', {audio_id: track.data('aid'), owner_id: track.data('owner')}, function(data) {
 			if (data.response) {
 				self.tooltip('destroy');
-				self.remove();
+				self.parent().remove();
 			}
 		});
 
@@ -169,19 +169,58 @@ $(function() {
 
 		VK.api('audio.delete', {audio_id: track.data('aid'), owner_id: track.data('owner')}, function(data) {
 			if (data.response) {
+				self.parent().after('<li><a href="#" rel="tooltip" title="Восстановить" class="restoreAudio"><span class="fa fa-plus"></span></a></li>');
+            	$('.trackMenu [rel="tooltip"]').tooltip({container: 'body'});
+
 				self.tooltip('destroy');				
-				self.remove();
+				self.parent().remove();
 			}
 		});
 
 		return false;
+    }).on('click', '.restoreAudio', function() {
+    	var self = $(this);
+    	var track = self.closest('.track');
+
+    	VK.api('audio.restore', {audio_id: track.data('aid'), owner_id: track.data('owner')}, function(data) {
+			if (data.response) {
+				self.parent().after('<li><a href="#" rel="tooltip" title="Удалить" class="deleteAudio"><span class="fa fa-times"></span></a></li>');
+            	$('.trackMenu [rel="tooltip"]').tooltip({container: 'body'});
+
+				self.tooltip('destroy');	
+				self.parent().remove();
+			}
+		});
+
+    	return false;
     }).on('click', '.searchByArtist', function() {
     	var self = $(this);
     	var track = self.closest('.track');
 
+    	if (track.length == 0) {
+    		track = self.parent();
+    	}
+
     	$('#searchQuery').val(track.data('artist'));
     	$('#byArtist').prop('checked', true);
     	$('#searchIt').click();
+
+    	return false;
+    }).on('click', '.artistInfo', function() {
+    	var self = $(this);
+    	var track = self.closest('.track');
+
+    	$.ajax({
+    		url: '/ui/artist',
+    		type: 'POST',
+    		data: {artist: track.data('artist')},
+    		success: function(data) {
+    			$('#infoContent').html(data);
+    		},
+    		error: function(error) {
+    			console.log(error);
+    		}
+    	});
 
     	return false;
     });

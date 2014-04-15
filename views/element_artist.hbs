@@ -1,0 +1,30 @@
+{{#artist}}
+	<legend>{{{name}}}</legend>
+	<img src="{{image.[3].[#text]}}" class="pull-left">
+	{{#bio}}
+		<p>{{{summary}}}</p>
+	{{/bio}}
+
+	<legend>Жанры</legend>
+	<div class="tags">
+	{{#tags.tag}}
+		<div class="label label-default tag"><strong>{{name}}</strong></div>
+	{{/tags.tag}}
+	</div>
+
+	<legend>Похожие исполнители</legend>
+	<div class="similar">
+	{{#similar}}
+		<ul class="nav nav-pills">
+			{{#artist}}
+				<li data-artist="{{{name}}}">
+					<a href="#" class="searchByArtist">
+						<img src="{{image.[1].[#text]}}">
+						{{{name}}}
+					</a>
+				</li>
+			{{/artist}}
+		</ul>
+	{{/similar}}
+	</div>
+{{/artist}}

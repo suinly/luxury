@@ -1,4 +1,5 @@
 var config	= require('nconf');
+var http	= require('http');
 
 module.exports = function(app) {
 	app.get('/', function(req, res) {
@@ -29,12 +30,33 @@ module.exports = function(app) {
 					user: req.session.user
 				});
 				break;
+
 			case 'audio':
 				res.render('element_audio', {
 					layout: false,
 					audio: req.body.response
 				});
 				break;
+
+			case 'artist':
+				var url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + req.body.artist + '&api_key=' + config.get('lastfm:api_key') + '&lang=ru&format=json';
+				http.get(url, function(response) {
+					var body = '';
+
+					response.on('data', function(chunk) {
+					    body += chunk;
+					});
+
+					response.on('end', function() {	
+						var data = JSON.parse(body);
+						res.render('element_artist', {
+							layout: false,
+							artist: data.artist
+						});
+					});
+				});
+				break;
+
 			case 'newsfeed':
 				var items = [];
 				var data = req.body.response;

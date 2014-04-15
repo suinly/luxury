@@ -21,8 +21,12 @@
 .sidebar #mainMenu ul {
 	padding: 0;
 	list-style: none;
+	margin-top: 0px;
 }
-
+.sidebar #mainMenu ul li {
+	float: left;
+	margin-right: 5px;
+}
 .sidebar #mainMenu ul li a {
 	color: #fff;
 	font-size: 0.7em;
@@ -291,4 +295,30 @@
 	float: right;
 	margin-top: -25px;
 	line-height: 1.8;
+}
+
+#infoContent {
+	padding-top: 10px;
+	padding-right: 10px;
+	position: fixed;
+}
+#infoContent img {
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+#infoContent .tags {
+	margin-bottom: 20px;
+}
+#infoContent .similar {
+	height: 70px;
+}
+#infoContent .similar ul li {
+	float: left;
+	height: 70px;
+	max-height: 70px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+#infoContent .similar ul li img {
+	height: 50px;
 }
