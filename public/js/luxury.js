@@ -122,6 +122,27 @@ $(function() {
         $('.track-info .artist').text(luxury.currTrack.data('artist'));
 
         $('.time-control').fadeIn();
+
+        $.get('http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=' + window.lfm_api_key 
+              + '&artist=' + luxury.currTrack.data('artist') 
+              + '&track=' + luxury.currTrack.data('title') 
+              + '&format=json', function(data) {
+                console.log(data);
+
+            if ('track' in data) {
+                if ('album' in data.track) {
+                    if ('image' in data.track.album) {
+                        $('.album-image').css('background', 'url(' + data.track.album.image[1]['#text'] + ')');
+                    } else {
+                        $('.album-image').css('background', '#ddd');
+                    }
+                } else {
+                    $('.album-image').css('background', '#ddd');
+                }
+            } else {
+                $('.album-image').css('background', '#ddd');
+            }
+        });
     });
 
     luxury.audio.addEventListener('ended', function() {

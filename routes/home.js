@@ -4,7 +4,8 @@ module.exports = function(app) {
 	app.get('/', function(req, res) {
 		res.render('home', {
             title: 	'Luxury WP',
-            vk: config.get('vk')
+            vk: config.get('vk'),
+            lfm: config.get('lastfm')
         });
 	});
 
