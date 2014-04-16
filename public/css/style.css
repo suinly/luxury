@@ -181,6 +181,22 @@ body {
 	margin:0;
 }
 
+#content.loading {
+	opacity: 0.3;
+}
+#content.loading:before {
+	position: absolute;
+	background: url('/img/loader.gif') no-repeat center center;
+	width: 100px;
+	height: 100px;
+	z-index: 100000;
+	content: ' ';
+	padding: 50%;
+	padding-top: 30%;
+	padding-bottom: 90%;
+	margin-top: -10%;
+	opacity: 1;
+}
 #content .tab {
 	display: none;
 }
@@ -188,6 +204,21 @@ body {
 	margin-top: 10px;
 	padding: 10px;
 	background: #F8F8F8;
+}
+
+#infoContent.loading {
+	opacity: 0.3;
+}
+#infoContent.loading:before {
+	position: fixed;
+	background: url('/img/loader.gif') no-repeat center center;
+	width: 100px;
+	height: 100px;
+	z-index: 100000;
+	content: ' ';
+	left: 76%;
+	top: 30%;
+	opacity: 1;
 }
 
 .tracks .track {

@@ -24,10 +24,13 @@ $(function() {
                                 url: '/ui/user',
                                 type: 'POST',
                                 success: function(data) {
-                                    $('#userBlock').html(data);
+                                    $('#userBlock').fadeOut('fast', function() {
+                                        $('#userBlock').html(data);
+                                        $('#userBlock').fadeIn('fast');
 
-                                    $('.logout').fadeIn();
-                                    $('#loginModal').modal('hide');
+                                        $('.logout').fadeIn();
+                                        $('#loginModal').modal('hide');
+                                    });
                                 },
                                 error: function(error) {
                                     console.log(error);

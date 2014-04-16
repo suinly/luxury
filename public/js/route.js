@@ -12,6 +12,7 @@ $(function() {
  * для обработки данных и вывода HTML
  */
     $('#audio').click(function() {
+        loadingStart('content');
         VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
@@ -50,6 +51,9 @@ $(function() {
 		                $('#myAudio').data('page', 1);
 	                });
                 },
+                complete: function() {
+                	loadingStop('content');
+                },
                 error: function(error) {
                     console.log(error);
                 }
@@ -60,6 +64,7 @@ $(function() {
     });
 
 	$('#myAudio').click(function() {
+        loadingStart('content');
 		VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
@@ -71,6 +76,8 @@ $(function() {
 	                    $('#audioMenu li.active').removeClass('active');
 	                    $('#myAudio').parent().addClass('active');
 						$('#content #audioTab .contentPlace').fadeIn('fast');
+
+	                    $('html, body').animate({scrollTop:0}, 'normal');
 
 	                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
 		                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
@@ -87,7 +94,11 @@ $(function() {
 		                }
 
 		                $('#myAudio').data('page', 1);
+
 	                });
+                },
+                complete: function() {
+                	loadingStop('content');
                 },
                 error: function(error) {
                     console.log(error);
@@ -99,6 +110,7 @@ $(function() {
 	});
 
 	$('#recommendationsAudio').click(function() {
+		loadingStart('content');
 		VK.api('audio.getRecommendations', {count: luxury.config.count}, function(data) {
 			$.ajax({
                 url: '/ui/audio',
@@ -111,6 +123,8 @@ $(function() {
 	                    $('#recommendationsAudio').parent().addClass('active');
 
 						$('#content #audioTab .contentPlace').fadeIn('fast');
+
+	                    $('html, body').animate({scrollTop:0}, 'normal');
 
 	                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
 		                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
@@ -129,6 +143,9 @@ $(function() {
 		                $('#recommendationsAudio').data('page', 1);
 	                });
                 },
+                complete: function() {
+		            loadingStop('content');
+		        },
                 error: function(error) {
                     console.log(error);
                 }
@@ -139,6 +156,7 @@ $(function() {
 	});
 
 	$('#wallAudio').click(function() {
+        loadingStart('content');
 		VK.api('wall.get', {count: luxury.config.count}, function(data) {
 			$.ajax({
 				url: '/ui/wall',
@@ -152,9 +170,16 @@ $(function() {
 
 						$('#content #audioTab .contentPlace').fadeIn('fast');
 
+	                    $('html, body').animate({scrollTop:0}, 'normal');
+
 		                $('#wallAudio').data('page', 1);
+
+		                loadingStop('content');
 	                });
 				},
+                complete: function() {
+                	loadingStop('content');
+                },
 				error: function(error) {
 					console.log(error);
 				}
@@ -171,27 +196,62 @@ $(function() {
 		$('#byArtist').prop('checked') ? byartist = 1 : byartist = 0;
 
 		if (query != '') {
+		    loadingStart('content');
 			VK.api('audio.search', {q: query, performer_only: byartist}, function(data) {
-				delete data.response[0];
-				$.ajax({
-	                url: '/ui/audio',
-	                type: 'POST',
-	                data: data,
-	                success: function(data) {
-						$('#content #audioTab .contentPlace').fadeOut('fast', function() {
-		                    $('#content #audioTab .contentPlace').html(data);
-		                    $('#audioMenu li.active').removeClass('active');
-	        				$('#searchAudio').parent().addClass('active');
+				if (data.response.length > 1) {
+					delete data.response[0];
+					loadingStart('infoContent');
 
-							$('#content #audioTab .contentPlace').fadeIn('fast');
+					$.ajax({
+		                url: '/ui/audio',
+		                type: 'POST',
+		                data: data,
+		                beforeSend: function(data) {
+		                	if (byartist == 1) {
+		                		$.ajax({
+						    		url: '/ui/artist',
+						    		type: 'POST',
+						    		data: {artist: query},
+						    		success: function(data) {
+						    			$('#infoContent').fadeOut('fast', function() {
+						    				$('#infoContent').html(data);
+						    				$('#infoContent').fadeIn();
 
-		               		$('#searchAudio').data('page', 1);
-	               		});
-	                },
-	                error: function(error) {
-	                    console.log(error);
-	                }
-	            });
+						    				loadingStop('infoContent');
+						    			});
+						    		},
+						    		error: function(error) {
+						    			console.log(error);
+						    		}
+						    	});
+		                	}
+		                },
+		                success: function(data) {
+							$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+			                    $('#content #audioTab .contentPlace').html(data);
+			                    $('#audioMenu li.active').removeClass('active');
+		        				$('#searchAudio').parent().addClass('active');
+
+								$('#content #audioTab .contentPlace').fadeIn('fast');
+
+	                   			$('html, body').animate({scrollTop:0}, 'normal');
+
+			               		$('#searchAudio').data('page', 1);
+		               		});
+		                },
+		                complete: function() {
+	               			loadingStop('content');
+		                },
+		                error: function(error) {
+		                    console.log(error);
+		                }
+		            });
+		        } else {
+		        	$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+		        		$('#content #audioTab .contentPlace').html('<h3 class="text-center text-muted">Ничего не найдено</h3>');
+		        		$('#content #audioTab .contentPlace').fadeIn('fast');
+		        	});
+		        }
 			});
 		} else {
 			$('#searchQuery').focus();
@@ -362,8 +422,11 @@ $(function() {
     		url: '/ui/artist',
     		type: 'POST',
     		data: {artist: track.data('artist')},
-    		success: function(data) {
-    			$('#infoContent').html(data);
+    		success: function(data) {    			
+				$('#infoContent').fadeOut('fast', function() {
+					$('#infoContent').html(data);
+					$('#infoContent').fadeIn();
+				});
     		},
     		error: function(error) {
     			console.log(error);
@@ -402,4 +465,14 @@ $(function() {
 
         return false;
     });
+
+    function loadingStart(id) {
+    	$('#' + id).addClass('loading');
+    	//$('body').css('overflow-y', 'hidden');
+    }
+
+    function loadingStop(id) {
+    	$('#' + id).removeClass('loading');
+    	//$('body').css('overflow-y', 'scroll');
+    }
 })
