@@ -442,6 +442,7 @@ $(function() {
  * для обработки данных и вывода HTML
  */
     $('#newsfeed').click(function() {
+    	loadingStart('content');
         VK.api('newsfeed.get', {count: 50}, function(data) {
             console.log(data);
             $.ajax({
@@ -456,6 +457,9 @@ $(function() {
                     $('#content #newsfeedTab').show();
 
                     $('html, body').animate({scrollTop:0}, 'normal');
+                },
+                complete: function() {
+                	loadingStop('content');
                 },
                 error: function(error) {
                     console.log(error);
