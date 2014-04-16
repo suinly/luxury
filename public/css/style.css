@@ -1,12 +1,18 @@
 body {
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 .container {
 	min-width: 100%;
 }
 
+.col-md-5 {
+	left: 317px;
+}
+
 .sidebarCol {
 	width: 317px;
+	margin-left: 15px;
 }
 .sidebar {
 	position: fixed;
@@ -332,9 +338,9 @@ body {
 }
 
 #infoContent {
-	padding-top: 10px;
-	padding-right: 10px;
 	position: fixed;
+	margin-left: -15px;
+	padding-right: 10px;
 }
 #infoContent img {
 	padding-right: 10px;
