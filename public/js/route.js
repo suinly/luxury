@@ -12,38 +12,43 @@ $(function() {
  * для обработки данных и вывода HTML
  */
     $('#audio').click(function() {
-        VK.api('audio.get', {count: 100}, function(data) {
+        VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
                 type: 'POST',
                 data: data,
                 success: function(data) {
-                    $('#content #audioTab .contentPlace').html(data);
-                    $('#menu ul li.active').removeClass('active');
-                    $('#menu #audio').parent().addClass('active');
-                    $('#audioMenu li.active').removeClass('active');
-                    $('#myAudio').parent().addClass('active');
-                    $('#content .tab').hide();
-                    $('#content #audioTab').show();
+					$('#content #audioTab').fadeOut('fast', function() {
+	                    $('#content #audioTab .contentPlace').html(data);
+	                    $('#menu ul li.active').removeClass('active');
+	                    $('#menu #audio').parent().addClass('active');
+	                    $('#audioMenu li.active').removeClass('active');
+	                    $('#myAudio').parent().addClass('active');
+	                    $('#content .tab').hide();
 
-                    $('html, body').animate({scrollTop:0}, 'normal');
+						$('#content #audioTab').fadeIn('fast');
 
-                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
-	                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
-	                    if (luxury.currTrack.length) {
-	                    	if (!luxury.audio.paused) {
-	                    		luxury.currTrack.addClass('active');
-	                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
-	                    	}
-	                    	$('html, body').animate({
-					            scrollTop: luxury.currTrack.offset().top - 10
-					        }, 200);
-	                    }
+	                    $('html, body').animate({scrollTop:0}, 'normal');
 
-	                    if (luxury.prevTrack) {
-	                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
-	                    }
-	                }
+	                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
+		                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
+		                    if (luxury.currTrack.length) {
+		                    	if (!luxury.audio.paused) {
+		                    		luxury.currTrack.addClass('active');
+		                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
+		                    	}
+		                    	$('html, body').animate({
+						            scrollTop: luxury.currTrack.offset().top - 10
+						        }, 200);
+		                    }
+
+		                    if (luxury.prevTrack) {
+		                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
+		                    }
+		                }
+
+		                $('#myAudio').data('page', 1);
+	                });
                 },
                 error: function(error) {
                     console.log(error);
@@ -55,29 +60,34 @@ $(function() {
     });
 
 	$('#myAudio').click(function() {
-		VK.api('audio.get', {}, function(data) {
+		VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
                 type: 'POST',
                 data: data,
                 success: function(data) {
-                    $('#content #audioTab .contentPlace').html(data);
-                    $('#audioMenu li.active').removeClass('active');
-                    $('#myAudio').parent().addClass('active');
+					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+	                    $('#content #audioTab .contentPlace').html(data);
+	                    $('#audioMenu li.active').removeClass('active');
+	                    $('#myAudio').parent().addClass('active');
+						$('#content #audioTab .contentPlace').fadeIn('fast');
 
-                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
-	                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
-	                    if (luxury.currTrack.length) {
-	                    	if (!luxury.audio.paused) {
-	                    		luxury.currTrack.addClass('active');
-	                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
-	                    	}
-	                    }
+	                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
+		                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
+		                    if (luxury.currTrack.length) {
+		                    	if (!luxury.audio.paused) {
+		                    		luxury.currTrack.addClass('active');
+		                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
+		                    	}
+		                    }
 
-	                    if (luxury.prevTrack) {
-	                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
-	                    }
-	                }
+		                    if (luxury.prevTrack) {
+		                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
+		                    }
+		                }
+
+		                $('#myAudio').data('page', 1);
+	                });
                 },
                 error: function(error) {
                     console.log(error);
@@ -89,34 +99,66 @@ $(function() {
 	});
 
 	$('#recommendationsAudio').click(function() {
-		VK.api('audio.getRecommendations', {}, function(data) {
+		VK.api('audio.getRecommendations', {count: luxury.config.count}, function(data) {
 			$.ajax({
                 url: '/ui/audio',
                 type: 'POST',
                 data: data,
                 success: function(data) {
-                    $('#content #audioTab .contentPlace').html(data);
-                    $('#audioMenu li.active').removeClass('active');
-                    $('#recommendationsAudio').parent().addClass('active');
+					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+	                    $('#content #audioTab .contentPlace').html(data);
+	                    $('#audioMenu li.active').removeClass('active');
+	                    $('#recommendationsAudio').parent().addClass('active');
 
-                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
-	                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
-	                    if (luxury.currTrack.length) {
-	                    	if (!luxury.audio.paused) {
-	                    		luxury.currTrack.addClass('active');
-	                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
-	                    	}
-	                    }
+						$('#content #audioTab .contentPlace').fadeIn('fast');
 
-	                    if (luxury.prevTrack) {
-	                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
-	                    }
-	                }
+	                    if (luxury.currTrack && $('#audio_'+luxury.currTrack.data('aid')).length) {
+		                    luxury.currTrack = $('#audio_'+luxury.currTrack.data('aid'));
+		                    if (luxury.currTrack.length) {
+		                    	if (!luxury.audio.paused) {
+		                    		luxury.currTrack.addClass('active');
+		                    		luxury.currTrack.find('i.fa').removeClass('fa-pause').addClass('fa-pause');
+		                    	}
+		                    }
+
+		                    if (luxury.prevTrack) {
+		                    	luxury.prevTrack = $('#audio_'+luxury.prevTrack.data('aid'));
+		                    }
+		                }
+
+		                $('#recommendationsAudio').data('page', 1);
+	                });
                 },
                 error: function(error) {
                     console.log(error);
                 }
             });
+		});
+
+		return false;
+	});
+
+	$('#wallAudio').click(function() {
+		VK.api('wall.get', {count: luxury.config.count}, function(data) {
+			$.ajax({
+				url: '/ui/wall',
+				type: 'POST',
+				data: data,
+				success: function(data) {
+					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+						$('#content #audioTab .contentPlace').html(data);
+	                    $('#audioMenu li.active').removeClass('active');
+	                    $('#wallAudio').parent().addClass('active');
+
+						$('#content #audioTab .contentPlace').fadeIn('fast');
+
+		                $('#wallAudio').data('page', 1);
+	                });
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 
 		return false;
@@ -136,8 +178,15 @@ $(function() {
 	                type: 'POST',
 	                data: data,
 	                success: function(data) {
-	                    $('#content #audioTab .contentPlace').html(data);
-	                    $('#audioMenu li.active').removeClass('active');
+						$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+		                    $('#content #audioTab .contentPlace').html(data);
+		                    $('#audioMenu li.active').removeClass('active');
+	        				$('#searchAudio').parent().addClass('active');
+
+							$('#content #audioTab .contentPlace').fadeIn('fast');
+
+		               		$('#searchAudio').data('page', 1);
+	               		});
 	                },
 	                error: function(error) {
 	                    console.log(error);
@@ -149,6 +198,105 @@ $(function() {
 		}
 
 		return false;
+	});
+
+	$('#searchAudio').click(function() {
+		$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+			$('#searchQuery').focus();
+       		$('#content #audioTab .contentPlace').html('<h3 class="text-center text-muted">Начните поиск аудиозаписей</h3>');
+	        $('#audioMenu li.active').removeClass('active');
+	        $('#searchAudio').parent().addClass('active');
+			$('#content #audioTab .contentPlace').fadeIn('fast');
+		});
+
+		return false;
+	});
+
+	$(document).ready(function() {
+		$("#searchQuery").keyup(function(event) {
+			if(event.keyCode==13) {
+				$('#searchIt').click();
+			}
+		});
+
+		$(window).scroll(function() {
+			if ($(window).scrollTop() == $(document).height() - $(window).height()){
+				if ($('#audio').parent().hasClass('active')) {
+					if ($('#myAudio').parent().hasClass('active')) {
+						var page = $('#myAudio').data('page');
+
+						if (page != 'end') {
+							VK.api('audio.get', {count: luxury.config.count, offset: luxury.config.count * page}, function(data) {
+								if (data.response.length) {
+						            $.ajax({
+						                url: '/ui/audio?append=1',
+						                type: 'POST',
+						                data: data,
+						                success: function(data) {
+						                    $('#content #audioTab .contentPlace ul.tracks').append(data);
+						                    $('#myAudio').data('page', page + 1);
+						                },
+						                error: function(error) {
+						                    console.log(error);
+						                }
+						            });
+						        } else {
+						        	$('#myAudio').data('page', 'end');
+						        }
+					        });
+					    }
+					} else if ($('#wallAudio').parent().hasClass('active')) {
+						var page = $('#wallAudio').data('page');
+
+						if (page != 'end') {
+							VK.api('wall.get', {count: luxury.config.count, offset: luxury.config.count * page}, function(data) {
+								if (data.response.length) {
+						            $.ajax({
+						                url: '/ui/wall?append=1',
+						                type: 'POST',
+						                data: data,
+						                success: function(data) {
+						                    $('#content #audioTab .contentPlace ul.tracks').append(data);
+						                    $('#wallAudio').data('page', page + 1);
+						                },
+						                error: function(error) {
+						                    console.log(error);
+						                }
+						            });
+						        } else {
+						        	$('#wallAudio').data('page', 'end');
+						        }
+					        });
+					    }
+					} else if ($('#recommendationsAudio').parent().hasClass('active')) {
+						var page = $('#recommendationsAudio').data('page');
+
+						if (page != 'end') {
+							VK.api('audio.getRecommendations', {count: luxury.config.count, offset: luxury.config.count * page}, function(data) {
+								if (data.response.length) {
+						            $.ajax({
+						                url: '/ui/audio?append=1',
+						                type: 'POST',
+						                data: data,
+						                success: function(data) {
+						                    $('#content #audioTab .contentPlace ul.tracks').append(data);
+						                    $('#recommendationsAudio').data('page', page + 1);
+						                },
+						                error: function(error) {
+						                    console.log(error);
+						                }
+						            });
+						        } else {
+						        	$('#recommendationsAudio').data('page', 'end');
+						        }
+					        });
+					    }
+					}
+				}
+			}
+
+			return false;
+		});
 	});
 
 	$(document).on('click', '.addAudio', function() {

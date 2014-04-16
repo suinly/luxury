@@ -1,4 +1,6 @@
-<ul class="list-group tracks">
+{{#unless append}}
+	<ul class="list-group tracks">
+{{/unless}}
 	{{#audio}}
 		<li class="list-group-item track"
 			id="audio_{{aid}}"
@@ -14,4 +16,6 @@
 				<div class="trackMenu"></div>
 		</li>
 	{{/audio}}
-</ul>
+{{#unless append}}
+	</ul>
+{{/unless}}

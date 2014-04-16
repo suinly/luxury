@@ -54,19 +54,17 @@
 			<div id="audioTab" class="tab">
 				<div class="header">
 					<div class="input-group">
-				      <input type="text" class="form-control" placeholder="Поиск аудиозаписей" id="searchQuery"
-				      		 rel="tooltip"
-				      		 data-placement="bottom"
-				      		 data-trigger="focus"
-				      		 title="Введите название композиции или исполнителя">
+				      <input type="text" class="form-control" placeholder="Поиск аудиозаписей" id="searchQuery">
 
 				      <span class="input-group-btn">
 				        <button class="btn btn-default" type="button" id="searchIt">Найти</button>
 				      </span>
 				    </div>
 				    <ul class="nav nav-pills" id="audioMenu">
-				    	<li><a href="#myAudio" id="myAudio">Мои аудиозаписи</a></li>
+				    	<li><a href="#myAudio" id="myAudio" data-page="1">Мои аудиозаписи</a></li>
+				    	<li><a href="#wallAudio" id="wallAudio">Стена</a></li>
 				    	<li><a href="#recommendationsAudio" id="recommendationsAudio">Рекомендации</a></li>
+				    	<li><a href="#searchAudio" id="searchAudio">Поиск</a></li>
 				    </ul>
 
 				    <div class="checkbox by-artist">

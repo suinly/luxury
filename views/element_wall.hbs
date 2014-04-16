@@ -1,0 +1,27 @@
+{{#unless append}}
+	<ul class="list-group tracks">
+{{/unless}}
+	{{#wall}}
+		{{#attachments}}
+			{{#if audio}}
+				{{#audio}}
+					<li class="list-group-item track"
+						id="audio_{{aid}}"
+						data-aid="{{aid}}"
+						data-owner="{{owner_id}}"
+						data-artist="{{{artist}}}"
+						data-title="{{{title}}}"
+						data-duration="{{duration}}"
+						data-url="{{{url}}}">
+							<div class="play"><i class="fa fa-play"></i></div>
+							<a href="#" class="searchByArtist">{{{artist}}}</a> - {{{title}}}
+
+							<div class="trackMenu"></div>
+					</li>
+				{{/audio}}
+			{{/if}}
+		{{/attachments}}
+	{{/wall}}
+{{#unless append}}
+	</ul>
+{{/unless}}

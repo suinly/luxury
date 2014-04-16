@@ -1,3 +1,6 @@
+body {
+	overflow-y: scroll;
+}
 .container {
 	min-width: 100%;
 }
@@ -199,7 +202,7 @@
 }
 .tracks .track.active > a {
 	color: #fff;
-	font-weight: 600;
+	font-weight: bold;
 }
 .tracks .track:hover {
 	background: #F8F8F8;

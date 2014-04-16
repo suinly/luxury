@@ -4,7 +4,8 @@ $(function() {
             volume: 0.1,
             repeat: 1,
             repeatOne: 0,
-            random: 0
+            random: 0,
+            count: 100 // количетво аудиозаписей за один запрос
         };
 
         this.audio = new Audio;
@@ -69,7 +70,13 @@ $(function() {
             var min = 0;
             var random = Math.round(Math.random() * (max - min + 1)) + min;
 
-            return $('.tracks .track').eq(random);
+            var nextTrack = $('.tracks .track').eq(random);
+
+            if (nextTrack.data('aid') != luxury.currTrack.data('aid')) {
+                return $('.tracks .track').eq(random);
+            } else {
+                return this.getRandomTrack();
+            }
         }
 
         this.duration = function(seconds) {
@@ -201,15 +208,19 @@ $(function() {
     $('#playerNext').click(function() {
         luxury.next();
 
-        luxury.prevTrack.removeClass('active')
-                        .find('i.fa').removeClass('fa-pause')
-                                     .addClass('fa-play');
+        if (luxury.prevTrack) {
+            luxury.prevTrack.removeClass('active')
+                            .find('i.fa').removeClass('fa-pause')
+                                         .addClass('fa-play');
+        }
 
-        luxury.currTrack.addClass('active');
+        if (luxury.currTrack) {
+            luxury.currTrack.addClass('active');
 
-        $('html, body').animate({
-            scrollTop: luxury.currTrack.offset().top - 10
-        }, 200);
+            $('html, body').animate({
+                scrollTop: luxury.currTrack.offset().top - 10
+            }, 200);
+        }
 
         return false;
     });
@@ -217,15 +228,19 @@ $(function() {
     $('#playerPrev').click(function() {
         luxury.prev();
 
-        luxury.prevTrack.removeClass('active')
-                        .find('i.fa').removeClass('fa-pause')
-                                     .addClass('fa-play');
+        if (luxury.prevTrack) {
+            luxury.prevTrack.removeClass('active')
+                            .find('i.fa').removeClass('fa-pause')
+                                         .addClass('fa-play');
+        }
 
-        luxury.currTrack.addClass('active');
+        if (luxury.currTrack) {
+            luxury.currTrack.addClass('active');
 
-        $('html, body').animate({
-            scrollTop: luxury.currTrack.offset().top - 10
-        }, 200);
+            $('html, body').animate({
+                scrollTop: luxury.currTrack.offset().top - 10
+            }, 200);
+        }
 
         return false;
     });

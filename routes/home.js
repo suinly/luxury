@@ -34,7 +34,18 @@ module.exports = function(app) {
 			case 'audio':
 				res.render('element_audio', {
 					layout: false,
-					audio: req.body.response
+					audio: req.body.response,
+					append: req.query.append
+				});
+				break;
+
+			case 'wall':
+				delete req.body.response[0];
+
+				res.render('element_wall', {
+					layout: false,
+					wall: req.body.response,
+					append: req.query.append
 				});
 				break;
 
