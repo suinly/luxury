@@ -290,11 +290,18 @@ body {
 .newsitem {
 	padding: 10px;
 	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	border-bottom: #F8F8F8;
+	overflow: hidden;
 }
 .newsitem:hover {
-	background: #F8F8F8;
+	/* background: #F8F8F8; */
+}
+.newsitem .date {
+	font-size: 0.7em;
+	color: #afafaf;
+	margin-top: -20px;
+	margin-bottom: 10px;
 }
 .newsitem .source_photo {
 	width: 50px;
@@ -303,19 +310,50 @@ body {
 }
 .newsitem .content {
 	margin-left: 60px;
+	padding-right: 5px;
 }
 .newsitem .content .source_info {
 	font-size: 0.9em;
 	font-weight: 600;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 .newsitem .content .likes {
 	margin-top: 10px;
 	text-align: right;
 }
-
+.contentPlace > .newsitem > .content {	
+	overflow: hidden;
+}
+.contentPlace > .newsitem > .expander {
+	height: 20px;
+	width: 100%;
+	z-index: 1000;
+	background: #F5F5F5;
+	display: none;
+	text-align: center;
+}
+.contentPlace > .newsitem > .expander:hover {
+	background: #DDD;
+}
+.photos img {
+	max-width: 100%;
+	margin-bottom: 10px;
+}
 .photos img:hover {
 	opacity: 0.97;
+}
+
+.content .link {
+	margin-top: 15px;
+}
+.content .link a {
+	padding: 10px 10px;
+	background: #F8F8F8;
+	width: 100%;
+	position: relative;
+	display: block;
+	text-decoration: none;
+	color: #000;
 }
 
 #audioMenu {

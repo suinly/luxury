@@ -1,0 +1,17 @@
+<div class="photos" data-post="{{post_id}}">
+	{{#attachments}}
+		{{#if photo}}
+			<a href="{{photo.src_big}}" rel="fancybox"><img src="{{photo.src_big}}" rel="print-gallery" data-highres="{{photo.src_big}}"></a>
+		{{/if}}
+	{{/attachments}}
+</div>					
+{{#attachments}}
+	{{#if link}}
+		<div class="link">
+			<a href="{{link.url}}" target="_blank">
+				<i class="fa fa-external-link-square"></i>
+				{{link.url}}
+			</a>
+		</div>
+	{{/if}}
+{{/attachments}}

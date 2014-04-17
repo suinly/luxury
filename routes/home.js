@@ -78,39 +78,39 @@ module.exports = function(app) {
 					/**
 					 * Добавление фото на стену не показываем
 					 */
-					if (items[k]['type'] == 'wall_photo') {
-						items[k]['wall_photo'] = 1;
-					}
-
-					if (items[k]['source_id'] > 0) {
-						for (var i in data['profiles']) {
-							if (data['profiles'][i]['uid'] == items[k]['source_id']) {
-								items[k]['source'] = data['profiles'][i];
-								continue;
-							}
-						}
+					if (items[k]['type'] != 'post') {
+						items[k]['hidden'] = true;
 					} else {
-						for (var i in data['groups']) {
-							if (data['groups'][i]['gid'] == Math.abs(items[k]['source_id'])) {
-								items[k]['source'] = data['groups'][i];
-								continue;
-							}
-						}
-					}
-
-					if (items[k]['copy_owner_id']) {
-						if (items[k]['copy_owner_id'] > 0) {
+						if (items[k]['source_id'] > 0) {
 							for (var i in data['profiles']) {
-								if (data['profiles'][i]['uid'] == items[k]['copy_owner_id']) {
-									items[k]['copy_source'] = data['profiles'][i];
+								if (data['profiles'][i]['uid'] == items[k]['source_id']) {
+									items[k]['source'] = data['profiles'][i];
 									continue;
 								}
 							}
 						} else {
 							for (var i in data['groups']) {
-								if (data['groups'][i]['gid'] == Math.abs(items[k]['copy_owner_id'])) {
-									items[k]['copy_source'] = data['groups'][i];
+								if (data['groups'][i]['gid'] == Math.abs(items[k]['source_id'])) {
+									items[k]['source'] = data['groups'][i];
 									continue;
+								}
+							}
+						}
+
+						if (items[k]['copy_owner_id']) {
+							if (items[k]['copy_owner_id'] > 0) {
+								for (var i in data['profiles']) {
+									if (data['profiles'][i]['uid'] == items[k]['copy_owner_id']) {
+										items[k]['copy_source'] = data['profiles'][i];
+										continue;
+									}
+								}
+							} else {
+								for (var i in data['groups']) {
+									if (data['groups'][i]['gid'] == Math.abs(items[k]['copy_owner_id'])) {
+										items[k]['copy_source'] = data['groups'][i];
+										continue;
+									}
 								}
 							}
 						}

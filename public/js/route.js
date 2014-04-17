@@ -13,6 +13,9 @@ $(function() {
  */
     $('#audio').click(function() {
         loadingStart('content');
+        $('#audioMenu li.active').removeClass('active');
+        $('#myAudio').parent().addClass('active');
+
         VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
@@ -23,8 +26,6 @@ $(function() {
 	                    $('#content #audioTab .contentPlace').html(data);
 	                    $('#menu ul li.active').removeClass('active');
 	                    $('#menu #audio').parent().addClass('active');
-	                    $('#audioMenu li.active').removeClass('active');
-	                    $('#myAudio').parent().addClass('active');
 	                    $('#content .tab').hide();
 
 						$('#content #audioTab').fadeIn('fast');
@@ -65,16 +66,18 @@ $(function() {
 
 	$('#myAudio').click(function() {
         loadingStart('content');
+        $('#audioMenu li.active').removeClass('active');
+        $('#myAudio').parent().addClass('active');
+
 		VK.api('audio.get', {count: luxury.config.count}, function(data) {
             $.ajax({
                 url: '/ui/audio',
                 type: 'POST',
                 data: data,
                 success: function(data) {
+
 					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
 	                    $('#content #audioTab .contentPlace').html(data);
-	                    $('#audioMenu li.active').removeClass('active');
-	                    $('#myAudio').parent().addClass('active');
 						$('#content #audioTab .contentPlace').fadeIn('fast');
 
 	                    $('html, body').animate({scrollTop:0}, 'normal');
@@ -111,6 +114,9 @@ $(function() {
 
 	$('#recommendationsAudio').click(function() {
 		loadingStart('content');
+        $('#audioMenu li.active').removeClass('active');
+        $('#recommendationsAudio').parent().addClass('active');
+
 		VK.api('audio.getRecommendations', {count: luxury.config.count}, function(data) {
 			$.ajax({
                 url: '/ui/audio',
@@ -119,8 +125,6 @@ $(function() {
                 success: function(data) {
 					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
 	                    $('#content #audioTab .contentPlace').html(data);
-	                    $('#audioMenu li.active').removeClass('active');
-	                    $('#recommendationsAudio').parent().addClass('active');
 
 						$('#content #audioTab .contentPlace').fadeIn('fast');
 
@@ -157,6 +161,10 @@ $(function() {
 
 	$('#wallAudio').click(function() {
         loadingStart('content');
+
+        $('#audioMenu li.active').removeClass('active');
+        $('#wallAudio').parent().addClass('active');
+
 		VK.api('wall.get', {count: luxury.config.count}, function(data) {
 			$.ajax({
 				url: '/ui/wall',
@@ -165,8 +173,6 @@ $(function() {
 				success: function(data) {
 					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
 						$('#content #audioTab .contentPlace').html(data);
-	                    $('#audioMenu li.active').removeClass('active');
-	                    $('#wallAudio').parent().addClass('active');
 
 						$('#content #audioTab .contentPlace').fadeIn('fast');
 
@@ -434,6 +440,11 @@ $(function() {
     	});
 
     	return false;
+    }).on('click', '.expander', function() {
+    	$(this).tooltip('destroy');
+    	$(this).parent().find('.content:first').css('max-height', 'auto');
+    	$(this).remove();
+    	return false;
     });
 
 /**
@@ -444,7 +455,8 @@ $(function() {
     $('#newsfeed').click(function() {
     	loadingStart('content');
         VK.api('newsfeed.get', {count: 50}, function(data) {
-            console.log(data);
+        	console.log(data);
+        	
             $.ajax({
                 url: '/ui/newsfeed',
                 type: 'POST',
@@ -455,6 +467,28 @@ $(function() {
                     $('#menu #newsfeed').parent().addClass('active');
                     $('#content .tab').hide();                   
                     $('#content #newsfeedTab').show();
+
+                    /**
+                     * Скрытие части новости, более 300 пикселей в высоту
+                     */
+                    $('#content #newsfeedTab .newsitem').each(function() {
+                    	var self 	= $(this);
+                    	var content = self.find('.content:first');
+                    	var imgs 	= content.find('img');
+
+                    	var count = 0;
+                    	imgs.each(function() {
+                    		count++;
+                    		$(this).load(function() {
+								if (count == imgs.length && content.height() > 299) {
+									content.css('max-height', 300);
+									self.find('.expander').show().tooltip({container: 'body'});
+								}
+							});
+						});
+					});
+
+					$('#content #newsfeedTab a[rel="fancybox"]').fancybox();
 
                     $('html, body').animate({scrollTop:0}, 'normal');
                 },

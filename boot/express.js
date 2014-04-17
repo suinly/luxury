@@ -2,7 +2,7 @@ var express = require('express');
 var path 	= require('path');
 var config	= require('nconf');
 var exphbs  = require('express3-handlebars');
-var helpers = require('../lib/helpers.js');
+var helpers = require('../lib/helpers');
 
 module.exports = function (app) {
 	app.set('port', config.get("app:port") || 3000);	

@@ -1,5 +1,5 @@
 {{#newsfeed}}
-	{{#unless wall_photo}}
+	{{#unless hidden}}
 		<div class="newsitem">
 			<div class="source_photo">
 				<img src="{{source.photo}}">
@@ -12,6 +12,7 @@
 						{{source.name}}
 					{{/if}}
 				</div>
+				<div class="date">{{format date}}</div>
 	
 				{{#if copy_owner_id}}
 					<div class="newsitem">
@@ -27,21 +28,9 @@
 									{{copy_source.name}}
 								{{/if}}
 							</div>
+
 							{{#if attachments}}
-								<div class="photos" data-post="{{post_id}}">
-									{{#attachments}}
-										{{#if photo}}
-											<img src="{{photo.src_big}}" rel="print-gallery" data-highres="{{photo.src_big}}">
-										{{/if}}
-									{{/attachments}}
-								</div>					
-								{{#attachments}}
-									{{#if link}}
-										<div class="link">
-											<a href="{{link.url}}" target="_blank">{{link.title}}</a>
-										</div>
-									{{/if}}
-								{{/attachments}}
+								{{> newsfeed_attachments}}
 							{{/if}}
 
 							{{#if likes}}
@@ -58,22 +47,8 @@
 						<p>{{{text}}}</p>
 					{{/if}}
 
-					{{#if attachments}}						
-						<div class="photos" data-post="{{post_id}}">
-							{{#attachments}}
-								{{#if photo}}
-									<img src="{{photo.src_big}}" rel="print-gallery" data-highres="{{photo.src_big}}">
-								{{/if}}
-							{{/attachments}}
-						</div>					
-						{{#attachments}}
-							{{#if link}}
-
-								<div class="link">
-									<a href="{{link.url}}" target="_blank">{{link.title}}</a>
-								</div>
-							{{/if}}
-						{{/attachments}}
+					{{#if attachments}}	
+						{{> newsfeed_attachments}}
 					{{/if}}
 
 					{{#if likes}}
@@ -85,13 +60,14 @@
 					{{/if}}
 				{{/if}}
 			</div>
+			<div class="expander" rel="tooltip" title="Расскрыть новость"><i class="fa fa-angle-double-down"></i></div>
 		</div>
 	{{/unless}}
 {{/newsfeed}}
 
 <script>
 	$(function() {
-		$('.photos').each(function() {
+		/* $('.photos').each(function() {
 			var container = $(this);
 			container.photosetGrid({
 				layout: '23444',
@@ -109,6 +85,8 @@
 					});
   				}
 			});
-		});
+		}); */
+
+
 	});
 </script>
