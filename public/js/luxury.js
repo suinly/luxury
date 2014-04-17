@@ -278,20 +278,8 @@ $(function() {
         return false;
     });
 
-    $('.time-control').on('mousemove', function(e) {
-        if(e.which==1) {
-            if (luxury.currTrack) {
-                var parentOffset = $(this).parent().offset();      
-                var relX = e.pageX - parentOffset.left;
-                var value = (100 / $(this).width()) * relX;
 
-                var time = luxury.audio.duration * (value / 100);
-                luxury.audio.currentTime = time;
-            }
-        }
-    });
-
-    $('.time-control').on('click', function(e) {
+    $('.time-control').on('mousedown', function(e) {
         if (luxury.currTrack) {
             var parentOffset = $(this).parent().offset();      
             var relX = e.pageX - parentOffset.left;
@@ -300,24 +288,41 @@ $(function() {
             var time = luxury.audio.duration * (value / 100);
             luxury.audio.currentTime = time;
         }
+
+        $('.time-control').bind('mousemove', function(e) {
+            if (luxury.currTrack) {
+                var parentOffset = $(this).parent().offset();      
+                var relX = e.pageX - parentOffset.left;
+                var value = (100 / $(this).width()) * relX;
+
+                var time = luxury.audio.duration * (value / 100);
+                luxury.audio.currentTime = time;
+            }
+        });
     });
 
-    $('.volume-control').on('mousemove', function(e) {
-        if(e.which==1) {
-            var parentOffset = $(this).parent().offset();      
-            var relX = e.pageX - parentOffset.left;
-            var value = (100 / $(this).width()) * relX;
-            
-            luxury.audio.volume = value / 100;
-        }
+    $('.time-control').on('mouseup', function(e) {
+        $('.time-control').unbind('mousemove');
     });
 
-    $('.volume-control').on('click', function(e) {
+    $('.volume-control').on('mousedown', function(e) {
         var parentOffset = $(this).parent().offset();      
         var relX = e.pageX - parentOffset.left;
         var value = (100 / $(this).width()) * relX;
         
         luxury.audio.volume = value / 100;
+
+        $('.volume-control').bind('mousemove', function(e) {
+            var parentOffset = $(this).parent().offset();      
+            var relX = e.pageX - parentOffset.left;
+            var value = (100 / $(this).width()) * relX;
+            
+            luxury.audio.volume = value / 100;
+        });
+    });
+
+    $('.volume-control').on('mouseup', function(e) {
+        $('.volume-control').unbind('mousemove');
     });
 
 /**
