@@ -7,9 +7,9 @@
 			<div class="content">
 				<div class="source_info">
 					{{#if source.first_name}}
-						{{source.first_name}} {{source.last_name}}
+						{{{source.first_name}}} {{{source.last_name}}}
 					{{else}}
-						{{source.name}}
+						{{{source.name}}}
 					{{/if}}
 				</div>
 				<div class="date">{{format date}}</div>
@@ -23,9 +23,9 @@
 							<div class="source_info">
 								<i class="fa fa-share text-muted"></i>
 								{{#if copy_source.first_name}}
-									{{copy_source.first_name}} {{copy_source.last_name}}
+									{{{copy_source.first_name}}} {{{copy_source.last_name}}}
 								{{else}}
-									{{copy_source.name}}
+									{{{copy_source.name}}}
 								{{/if}}
 							</div>
 
