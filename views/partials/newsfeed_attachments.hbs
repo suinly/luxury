@@ -1,7 +1,7 @@
 <div class="photos" data-post="{{post_id}}">
 	{{#attachments}}
 		{{#if photo}}
-			<a href="{{photo.src_big}}" rel="fancybox"><img src="{{photo.src_big}}" rel="print-gallery" data-highres="{{photo.src_big}}"></a>
+			<a href="{{#if photo.src_xbig}}{{photo.src_xbig}}{{else}}{{photo.src_big}}{{/if}}" rel="fancybox_{{../../post_id}}" class="fancybox" title="{{photo.text}}"><img src="{{photo.src_big}}" rel="print-gallery" data-highres="{{photo.src_big}}"></a>
 		{{/if}}
 	{{/attachments}}
 </div>					
@@ -15,6 +15,16 @@
 		</div>
 	{{/if}}
 {{/attachments}}
+
+<div class="video">
+	{{#attachments}}
+		{{#if video}}
+			{{#video}}
+				<a href="http://vk.com/video{{owner_id}}_{{vid}}" target="_blank"><img src="{{image_big}}"></a>
+			{{/video}}
+		{{/if}}
+	{{/attachments}}
+</div>
 
 <ul class="list-group tracks">		
 	{{#attachments}}

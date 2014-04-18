@@ -58,6 +58,6 @@ $(function() {
     $('.login').click(function() {
         VK.Auth.login(function() { 
             VK.Auth.getLoginStatus(authInfo);
-        }, 2+8+8192); 
+        }, 2+8+16+8192); 
     });
 });

@@ -355,6 +355,12 @@ body {
 	text-decoration: none;
 	color: #000;
 }
+.content .link a:hover {
+	background: #EEEEEE;
+}
+.content a {
+	color: #000;
+}
 
 #audioMenu {
 	margin-top: 10px;

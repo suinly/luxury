@@ -7,9 +7,9 @@
 			<div class="content">
 				<div class="source_info">
 					{{#if source.first_name}}
-						{{{source.first_name}}} {{{source.last_name}}}
+						<a href="http://vk.com/{{source.uid}}" target="_blank">{{{source.first_name}}} {{{source.last_name}}}</a>
 					{{else}}
-						{{{source.name}}}
+						<a href="http://vk.com/{{source.screen_name}}" target="_blank">{{{source.name}}}</a>
 					{{/if}}
 				</div>
 				<div class="date">{{format date}}</div>
@@ -23,11 +23,16 @@
 							<div class="source_info">
 								<i class="fa fa-share text-muted"></i>
 								{{#if copy_source.first_name}}
-									{{{copy_source.first_name}}} {{{copy_source.last_name}}}
+									<a href="http://vk.com/{{copy_source.uid}}" target="_blank">{{{copy_source.first_name}}} {{{copy_source.last_name}}}</a>
 								{{else}}
-									{{{copy_source.name}}}
+									<a href="http://vk.com/{{copy_source.screen_name}}" target="_blank">{{{copy_source.name}}}</a>
 								{{/if}}
 							</div>
+							<div class="date">{{format date}}</div>
+							
+							{{#if text}}
+								<p>{{{text}}}</p>
+							{{/if}}
 
 							{{#if attachments}}
 								{{> newsfeed_attachments}}

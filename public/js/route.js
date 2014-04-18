@@ -442,7 +442,7 @@ $(function() {
     	return false;
     }).on('click', '.expander', function() {
     	$(this).tooltip('destroy');
-    	$(this).parent().find('.content:first').css('max-height', 'auto');
+    	$(this).parent().find('.content:first').css('max-height', '');
     	$(this).remove();
     	return false;
     });
@@ -456,7 +456,7 @@ $(function() {
     	loadingStart('content');
         VK.api('newsfeed.get', {count: 50}, function(data) {
         	console.log(data);
-        	
+
             $.ajax({
                 url: '/ui/newsfeed',
                 type: 'POST',
@@ -471,9 +471,9 @@ $(function() {
                     /**
                      * Скрытие части новости, более 300 пикселей в высоту
                      */
-                    $('#content #newsfeedTab .newsitem').each(function() {
+                    $('#content #newsfeedTab > .contentPlace > .newsitem').each(function() {
                     	var self 	= $(this);
-                    	var content = self.find('.content:first');
+                    	var content = self.children('.content');
                     	var imgs 	= content.find('img');
 
                     	var count = 0;
@@ -488,7 +488,21 @@ $(function() {
 						});
 					});
 
-					$('#content #newsfeedTab a[rel="fancybox"]').fancybox();
+					$('#content #newsfeedTab a.fancybox').fancybox({
+						openEffect	: 'none',
+    					closeEffect	: 'none',
+    					autoHeight: true,
+    					autoWidth: true,
+						helpers: {
+							title : {
+								type : 'float'
+							},
+							thumbs	: {
+								width	: 100,
+								height	: 100
+							}
+						}
+					});
 
                     $('html, body').animate({scrollTop:0}, 'normal');
                 },
