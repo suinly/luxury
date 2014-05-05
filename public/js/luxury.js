@@ -5,7 +5,9 @@ $(function() {
             repeat: 1,
             repeatOne: 0,
             random: 0,
-            count: 100 // количетво аудиозаписей за один запрос
+            count: 100, // количество аудиозаписей за один запрос
+            news: 100,    // количество новостей
+            newsfilters: 'post'
         };
 
         this.audio = new Audio;

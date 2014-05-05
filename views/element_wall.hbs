@@ -3,6 +3,11 @@
 {{/unless}}
 	{{#wall}}
 		{{#attachments}}
+			{{#if photo}}
+				{{#photo}}
+					<li class="list-group-item track-photo" style="background: url({{src_big}})"></li>
+				{{/photo}}
+			{{/if}}
 			{{#if audio}}
 				{{#audio}}
 					<li class="list-group-item track"

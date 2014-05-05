@@ -1,73 +1,71 @@
 {{#newsfeed}}
-	{{#unless hidden}}
-		<div class="newsitem">
-			<div class="source_photo">
-				<img src="{{source.photo}}">
-			</div>
-			<div class="content">
-				<div class="source_info">
-					{{#if source.first_name}}
-						<a href="http://vk.com/{{source.uid}}" target="_blank">{{{source.first_name}}} {{{source.last_name}}}</a>
-					{{else}}
-						<a href="http://vk.com/{{source.screen_name}}" target="_blank">{{{source.name}}}</a>
-					{{/if}}
-				</div>
-				<div class="date">{{format date}}</div>
-	
-				{{#if copy_owner_id}}
-					<div class="newsitem">
-						<div class="source_photo">
-							<img src="{{copy_source.photo}}">
-						</div>
-						<div class="content">
-							<div class="source_info">
-								<i class="fa fa-share text-muted"></i>
-								{{#if copy_source.first_name}}
-									<a href="http://vk.com/{{copy_source.uid}}" target="_blank">{{{copy_source.first_name}}} {{{copy_source.last_name}}}</a>
-								{{else}}
-									<a href="http://vk.com/{{copy_source.screen_name}}" target="_blank">{{{copy_source.name}}}</a>
-								{{/if}}
-							</div>
-							<div class="date">{{format date}}</div>
-							
-							{{#if text}}
-								<p>{{{text}}}</p>
-							{{/if}}
-
-							{{#if attachments}}
-								{{> newsfeed_attachments}}
-							{{/if}}
-
-							{{#if likes}}
-								<div class="likes">
-									<span class="label label-default">
-										<i class="fa fa-heart text-danger"></i> <strong>{{likes.count}}</strong>
-									</span>
-								</div>
-							{{/if}}
-						</div>
-					</div>
+	<div class="newsitem">
+		<div class="source_photo">
+			<img src="{{source.photo}}">
+		</div>
+		<div class="content">
+			<div class="source_info">
+				{{#if source.first_name}}
+					<a href="http://vk.com/{{source.uid}}" target="_blank">{{{source.first_name}}} {{{source.last_name}}}</a>
 				{{else}}
-					{{#if text}}
-						<p>{{{text}}}</p>
-					{{/if}}
-
-					{{#if attachments}}	
-						{{> newsfeed_attachments}}
-					{{/if}}
-
-					{{#if likes}}
-						<div class="likes">
-							<span class="label label-default">
-								<i class="fa fa-heart text-danger"></i> <strong>{{likes.count}}</strong>
-							</span>
-						</div>
-					{{/if}}
+					<a href="http://vk.com/{{source.screen_name}}" target="_blank">{{{source.name}}}</a>
 				{{/if}}
 			</div>
-			<div class="expander" rel="tooltip" title="Расскрыть новость"><i class="fa fa-angle-double-down"></i></div>
+			<div class="date">{{format date}}</div>
+
+			{{#if copy_owner_id}}
+				<div class="newsitem">
+					<div class="source_photo">
+						<img src="{{copy_source.photo}}">
+					</div>
+					<div class="content">
+						<div class="source_info">
+							<i class="fa fa-share text-muted"></i>
+							{{#if copy_source.first_name}}
+								<a href="http://vk.com/{{copy_source.uid}}" target="_blank">{{{copy_source.first_name}}} {{{copy_source.last_name}}}</a>
+							{{else}}
+								<a href="http://vk.com/{{copy_source.screen_name}}" target="_blank">{{{copy_source.name}}}</a>
+							{{/if}}
+						</div>
+						<div class="date">{{format date}}</div>
+						
+						{{#if text}}
+							<p>{{{text}}}</p>
+						{{/if}}
+
+						{{#if attachments}}
+							{{> newsfeed_attachments}}
+						{{/if}}
+
+						{{#if likes}}
+							<div class="likes">
+								<span class="label label-default">
+									<i class="fa fa-heart text-danger"></i> <strong>{{likes.count}}</strong>
+								</span>
+							</div>
+						{{/if}}
+					</div>
+				</div>
+			{{else}}
+				{{#if text}}
+					<p>{{{text}}}</p>
+				{{/if}}
+
+				{{#if attachments}}	
+					{{> newsfeed_attachments}}
+				{{/if}}
+
+				{{#if likes}}
+					<div class="likes">
+						<span class="label label-default">
+							<i class="fa fa-heart text-danger"></i> <strong>{{likes.count}}</strong>
+						</span>
+					</div>
+				{{/if}}
+			{{/if}}
 		</div>
-	{{/unless}}
+		<div class="expander" rel="tooltip" title="Расскрыть новость"><i class="fa fa-angle-double-down"></i></div>
+	</div>
 {{/newsfeed}}
 
 <script>

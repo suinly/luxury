@@ -1,10 +1,10 @@
 $(function() {
 
-	$(document).on('ajaxStart', function() {
+	/** $(document).on('ajaxStart', function() {
 		NProgress.start();
 	}).on('ajaxComplete', function() {
 		NProgress.done();
-	});
+	});*/
 
 /**
  * Клик по ссылке аудиозаписей
@@ -112,6 +112,9 @@ $(function() {
 		return false;
 	});
 
+/**
+ * Вкладка рекомендованных аудиозаписей
+ */
 	$('#recommendationsAudio').click(function() {
 		loadingStart('content');
         $('#audioMenu li.active').removeClass('active');
@@ -159,6 +162,9 @@ $(function() {
 		return false;
 	});
 
+/**
+ * Вкладка аудиозаписей со стены
+ */
 	$('#wallAudio').click(function() {
         loadingStart('content');
 
@@ -166,6 +172,7 @@ $(function() {
         $('#wallAudio').parent().addClass('active');
 
 		VK.api('wall.get', {count: luxury.config.count}, function(data) {
+			console.log(data);
 			$.ajax({
 				url: '/ui/wall',
 				type: 'POST',
@@ -195,6 +202,9 @@ $(function() {
 		return false;
 	});
 
+/**
+ * Поиск по аудизаписям
+ */
 	$('#searchIt').click(function() {
 		var query = $('#searchQuery').val();
 		
@@ -266,6 +276,9 @@ $(function() {
 		return false;
 	});
 
+/**
+ * Инициализация поиска
+ */
 	$('#searchAudio').click(function() {
 		$('#content #audioTab .contentPlace').fadeOut('fast', function() {
 			$('#searchQuery').focus();
@@ -278,19 +291,46 @@ $(function() {
 		return false;
 	});
 
+
 	$(document).ready(function() {
+		/**
+		 * Инициализация поиска по Enter в поле поиска
+		 */
 		$("#searchQuery").keyup(function(event) {
 			if(event.keyCode==13) {
 				$('#searchIt').click();
 			}
 		});
 
+		/**
+		 * Обработка загрузки по скроллу
+		 */
+		var busy = false;	// разблокировка загрузки контента
+							// true, если идет загрузка в данный момент
+							// соответственно заблокировано
+
 		$(window).scroll(function() {
-			if ($(window).scrollTop() == $(document).height() - $(window).height()){
+			if ($(window).scrollTop() + $(window).height() + 2000 > $('#content').height()) {
+
+				if (busy) {
+					console.log('Заблокирована загрузка');
+					return false;
+				}
+				/**
+				 * Если открыта вкладка аудизаписей, то обрабатываем
+				 * вкладки, который внутри нее
+				 */
 				if ($('#audio').parent().hasClass('active')) {
+					/**
+					 * Если открыта вкладки аудизаписей пользователя
+					 */
 					if ($('#myAudio').parent().hasClass('active')) {
+						busy = true; // блокируем загрузку
+
+						// узнаем текущую страницу для расчета offset
 						var page = $('#myAudio').data('page');
 
+						// если страница не последняя, то выполняем загрузку контента
 						if (page != 'end') {
 							VK.api('audio.get', {count: luxury.config.count, offset: luxury.config.count * page}, function(data) {
 								if (data.response.length) {
@@ -304,6 +344,9 @@ $(function() {
 						                },
 						                error: function(error) {
 						                    console.log(error);
+						                },
+						                complete: function() {
+						                	busy = false;
 						                }
 						            });
 						        } else {
@@ -311,6 +354,10 @@ $(function() {
 						        }
 					        });
 					    }
+
+					/**
+					 * Если открыта вкладка аудизаписей со стены
+					 */
 					} else if ($('#wallAudio').parent().hasClass('active')) {
 						var page = $('#wallAudio').data('page');
 
@@ -327,6 +374,9 @@ $(function() {
 						                },
 						                error: function(error) {
 						                    console.log(error);
+						                },
+						                complete: function() {
+						                	busy = false;
 						                }
 						            });
 						        } else {
@@ -334,6 +384,10 @@ $(function() {
 						        }
 					        });
 					    }
+
+					/**
+					 * Если открыта вкладка рекоммендованных аудизаписей
+					 */
 					} else if ($('#recommendationsAudio').parent().hasClass('active')) {
 						var page = $('#recommendationsAudio').data('page');
 
@@ -350,6 +404,9 @@ $(function() {
 						                },
 						                error: function(error) {
 						                    console.log(error);
+						                },
+						                complete: function() {
+						                	busy = false;
 						                }
 						            });
 						        } else {
@@ -358,10 +415,94 @@ $(function() {
 					        });
 					    }
 					}
+
+				/**
+				 * Если открыта вкладка новостей пользователя
+				 */
+				} else if ($('#newsfeed').parent().hasClass('active')) {
+					loadingStart();
+					busy = true;
+
+					var next_from = $('#newsfeed').data('next_from');
+
+					$('#content #newsfeedTab .contentPlace').append('<div class="loadingMessage">Идет загрузка...</div>');
+
+					setTimeout(function() {
+						console.log(next_from);
+						VK.api('newsfeed.get', {filters: luxury.config.newsfilters, from: next_from}, function(data) {
+							console.log('Получили данные от VK');
+
+							if (data.response.items.length > 0) {
+								console.log('Их больше нуля');
+								$('#newsfeed').data('next_from', data.response.new_from);
+
+					            $.ajax({
+					                url: '/ui/newsfeed',
+					                type: 'POST',
+					                data: data,
+					                success: function(data) {
+					                	console.log('Получили данные с сервера');
+
+					                    $('#content #newsfeedTab .contentPlace').append(data);
+
+					                    /**
+					                     * Скрытие части новости, более 300 пикселей в высоту
+					                     */
+					                    $('#content #newsfeedTab > .contentPlace > .newsitem').each(function() {
+					                    	var self 	= $(this);
+					                    	var content = self.children('.content');
+					                    	var imgs 	= content.find('img');
+
+					                    	var count = 0;
+					                    	imgs.each(function() {
+					                    		count++;
+					                    		$(this).load(function() {
+													if (count == imgs.length && content.height() > 299) {
+														content.css('max-height', 300);
+														self.find('.expander').show().tooltip({container: 'body'});
+													}
+												});
+											});
+										});
+
+					                    /**
+					                     * Fancybox на картинки
+					                     */
+										$('#content #newsfeedTab a.fancybox').fancybox({
+											openEffect	: 'none',
+					    					closeEffect	: 'none',
+					    					autoHeight: true,
+					    					autoWidth: true,
+											helpers: {
+												title : {
+													type : 'float'
+												},
+												thumbs	: {
+													width	: 100,
+													height	: 100
+												}
+											}
+										});
+					                },
+					                error: function(error) {
+					                    console.log(error);
+					                },
+					                complete: function() {
+										loadingStop();
+					                	$('#content #newsfeedTab .contentPlace .loadingMessage').remove();
+					                	busy = false;
+					                }
+					            });
+							} else {
+								loadingStop();
+								console.log('Данных нет');
+								setTimeout(function() { busy = false; }, 10000);
+					            $('#content #newsfeedTab .contentPlace .loadingMessage').remove();
+							}
+				        });
+					}, 500);
 				}
 			}
-
-			return false;
 		});
 	});
 
@@ -454,8 +595,10 @@ $(function() {
  */
     $('#newsfeed').click(function() {
     	loadingStart('content');
-        VK.api('newsfeed.get', {count: 50}, function(data) {
+        VK.api('newsfeed.get', {filters: luxury.config.newsfilters, count: luxury.config.news}, function(data) {
         	console.log(data);
+			$('#newsfeed').data('next_from', data.response.new_from);
+			$('#newsfeed').data('append', 1);
 
             $.ajax({
                 url: '/ui/newsfeed',
@@ -519,12 +662,14 @@ $(function() {
     });
 
     function loadingStart(id) {
-    	$('#' + id).addClass('loading');
+    	NProgress.start();
+    	//$('#' + id).addClass('loading');
     	//$('body').css('overflow-y', 'hidden');
     }
 
     function loadingStop(id) {
-    	$('#' + id).removeClass('loading');
+    	NProgress.done();
+    	//$('#' + id).removeClass('loading');
     	//$('body').css('overflow-y', 'scroll');
     }
 })
