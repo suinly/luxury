@@ -170,9 +170,9 @@ $(function() {
 
         $('#audioMenu li.active').removeClass('active');
         $('#wallAudio').parent().addClass('active');
+        $('#wallAudio').data('uid', window.vk_user_id);
 
 		VK.api('wall.get', {count: luxury.config.count}, function(data) {
-			console.log(data);
 			$.ajax({
 				url: '/ui/wall',
 				type: 'POST',
@@ -186,6 +186,20 @@ $(function() {
 	                    $('html, body').animate({scrollTop:0}, 'normal');
 
 		                $('#wallAudio').data('page', 1);
+
+		                VK.api('friends.get', {fields: 'photo_50'}, function(data) {
+		                	var html = '<a href="#" class="showFriends">Показать друзей</a><div class="friends hide">';
+
+		                	if (data.response.length > 0) {
+		                		for (k in data.response) {
+		                			html += '<a href="#" class="friendWall" data-uid="'+data.response[k]['uid']+'"><img src="'+data.response[k]['photo_50']+'"></img></a>';
+		                		}
+		                	}
+
+		                	html += '</div>';
+
+		                	$('#content #audioTab .contentPlace').prepend(html);
+		                });
 
 		                loadingStop('content');
 	                });
@@ -313,7 +327,6 @@ $(function() {
 			if ($(window).scrollTop() + $(window).height() + 2000 > $('#content').height()) {
 
 				if (busy) {
-					console.log('Заблокирована загрузка');
 					return false;
 				}
 				/**
@@ -359,11 +372,19 @@ $(function() {
 					 * Если открыта вкладка аудизаписей со стены
 					 */
 					} else if ($('#wallAudio').parent().hasClass('active')) {
+						busy = true;
 						var page = $('#wallAudio').data('page');
 
 						if (page != 'end') {
-							VK.api('wall.get', {count: luxury.config.count, offset: luxury.config.count * page}, function(data) {
-								if (data.response.length) {
+							var params = {count: luxury.config.count, offset: luxury.config.count * page};
+
+							var owner_id = parseInt($('#wallAudio').data('uid'));
+							if (owner_id) {
+								params.owner_id = owner_id;
+							}
+
+							VK.api('wall.get', params, function(data) {
+								if ('response' in data && data.response.length) {
 						            $.ajax({
 						                url: '/ui/wall?append=1',
 						                type: 'POST',
@@ -377,12 +398,15 @@ $(function() {
 						                },
 						                complete: function() {
 						                	busy = false;
+											loadingStop();
 						                }
 						            });
 						        } else {
 						        	$('#wallAudio').data('page', 'end');
 						        }
 					        });
+					    } else {
+					    	busy = false;
 					    }
 
 					/**
@@ -407,6 +431,7 @@ $(function() {
 						                },
 						                complete: function() {
 						                	busy = false;
+											loadingStop();
 						                }
 						            });
 						        } else {
@@ -585,6 +610,65 @@ $(function() {
     	$(this).tooltip('destroy');
     	$(this).parent().find('.content:first').css('max-height', '');
     	$(this).remove();
+    	return false;
+    }).on('click', '.friendWall', function() {
+    	loadingStart('content');
+
+        var self = $(this);
+
+		VK.api('wall.get', {count: luxury.config.count, owner_id: parseInt(self.data('uid'))}, function(data) {
+			$.ajax({
+				url: '/ui/wall',
+				type: 'POST',
+				data: data,
+				success: function(data) {
+					$('#content #audioTab .contentPlace').fadeOut('fast', function() {
+						$('#content #audioTab .contentPlace').html(data);
+
+						$('#content #audioTab .contentPlace').fadeIn('fast');
+
+	                    $('html, body').animate({scrollTop:0}, 'normal');
+
+		                $('#wallAudio').data('page', 1);
+		                $('#wallAudio').data('uid', self.data('uid'));
+
+		                if ($('.friends').length == 0) {
+		                	VK.api('friends.get', {fields: 'photo_50'}, function(data) {
+			                	var html = '<a href="#" class="showFriends">Показать друзей</a><div class="friends hide">';
+
+			                	if (data.response.length > 0) {
+			                		for (k in data.response) {
+			                			html += '<a href="#" class="friendWall" data-uid="'+data.response[k]['uid']+'"><img src="'+data.response[k]['photo_50']+'"></img></a>';
+			                		}
+			                	}
+
+			                	html += '</div>';
+
+			                	$('#content #audioTab .contentPlace').prepend(html);
+		                	});
+			            }
+
+		                loadingStop('content');
+	                });
+				},
+                complete: function() {
+                	loadingStop('content');
+                },
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+    	return false;
+    }).on('click', '.showFriends', function() {
+    	var self = $(this);
+    	if ($('.friends').hasClass('hide')) {
+    		self.text('Скрыть список друзей');
+    		$('.friends').removeClass('hide');
+    	} else {
+    		self.text('Показать друзей');
+    		$('.friends').addClass('hide');
+    	}
     	return false;
     });
 

@@ -12,6 +12,9 @@ $(function() {
     var authInfo = function (response) {
         if (response.session) {
             window.vk_user_id = response.session.mid;
+
+            $('#wallAudio').data('uid', window.vk_user_id);
+            
             VK.api('users.get', {user_id: response.session.mid, fields: 'first_name,last_name,photo_50'}, function(data) {
                 $.ajax({
                     url: '/user/update',

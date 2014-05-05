@@ -297,6 +297,26 @@ body {
     background-position: center center !important;
 }
 
+.showFriends {
+	padding: 5px;
+	text-align: center;
+	margin-top: 10px;
+	display: block;
+	font-size: 0.7em;
+}
+.showFriends:hover {
+	background: #F8F8F8;
+	text-decoration: none;
+}
+.friends {
+	margin-top: 10px;
+}
+.friends .friendWall {
+	margin-right: 5px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
 .newsitem {
 	padding: 10px;
 	margin-top: 10px;
